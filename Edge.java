@@ -17,7 +17,7 @@ public class Edge implements Comparable<Edge> {
     private final int v;
     private final int w;
     private final int distance;
-    private final int price;
+    private final double price;
 
     /**
      * Initializes an edge between vertices {@code v} and {@code w} of
@@ -30,7 +30,7 @@ public class Edge implements Comparable<Edge> {
      *         is a negative integer
      * @throws IllegalArgumentException if {@code weight} is {@code NaN}
      */
-    public Edge(int v, int w, int distance, int price) {
+    public Edge(int v, int w, int distance, double price) {
         if (v < 0) throw new IllegalArgumentException("vertex index must be a nonnegative integer");
         if (w < 0) throw new IllegalArgumentException("vertex index must be a nonnegative integer");
         if (distance <0 || price <0) throw new IllegalArgumentException("price and distance must be nonnegative");
@@ -54,7 +54,7 @@ public class Edge implements Comparable<Edge> {
      * 
      * @return the price of this edge
      */
-    public int getPrice() {
+    public double getPrice() {
     	return price;
     }
 
@@ -104,7 +104,7 @@ public class Edge implements Comparable<Edge> {
      *         the price of this is less than, equal to, or greater than the
      *         argument price
      */
-    public int comparePrice(int p) {
+    public int comparePrice(double p) {
     	if(p>price) return -1;
     	if(p==price) return 0;
     	else return 1;
