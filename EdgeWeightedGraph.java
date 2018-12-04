@@ -100,10 +100,11 @@ public class EdgeWeightedGraph {
      * @param  e the edge
      * @throws IllegalArgumentException unless both endpoints are between {@code 0} and {@code V-1}
      */
-    public void addEdge(int v,int w, int distance, double price) {
+    public void addEdge(Edge e) {
+        int v = e.either();
+        int w = e.other(v);
         validateVertex(v);
         validateVertex(w);
-        Edge e = new Edge(v,w,distance,price);
         adj[v].add(e);
         adj[w].add(e);
         E++;
