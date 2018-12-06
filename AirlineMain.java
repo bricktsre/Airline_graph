@@ -108,6 +108,12 @@ public class AirlineMain{
 		System.out.println("\nAdded route of " + distance + " miles from " + city1 + " to " + city2 + " for $" + price);
 	}
 	
+	/**
+	 * Removes an existing edge from the graph
+	 * 
+	 * @param city1 veritce one
+	 * @param city2 vertice two
+	 */
 	public void removeRoute(String city1, String city2) {
 		int v=0,w =0;
 		try{
