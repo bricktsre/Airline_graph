@@ -71,6 +71,30 @@ public class Bag<Item> implements Iterable<Item> {
         n++;
     }
 
+    /**
+     * Removes an item from the bag
+     * 
+     * @param item the item to remove from this bag
+     */
+    public void remove(Item item) {
+    	Node<Item> front = first;
+    	if(front.item.equals(item)) {
+    		first = first.next;
+    		n--;
+    		return;
+    	}
+    	Node<Item> back = front;
+    	front = front.next;
+    	while(front!=null) {
+    		if(front.item.equals(item)) {
+    			back.next= front.next;
+    			n--;
+    			return;
+    		}
+    		back = front;
+        	front = front.next;
+    	}
+    }
 
     /**
      * Returns an iterator that iterates over the items in this bag in arbitrary order.
