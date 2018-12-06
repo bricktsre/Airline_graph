@@ -108,6 +108,19 @@ public class AirlineMain{
 		System.out.println("\nAdded route of " + distance + " miles from " + city1 + " to " + city2 + " for $" + price);
 	}
 	
+	public void removeRoute(String city1, String city2) {
+		int v=0,w =0;
+		try{
+			v = cityidtable.get(city1);
+			w = cityidtable.get(city2);
+		}catch(NullPointerException e) {
+			System.out.println("\nOne of the two cities entered is not valid, please check capitalization and spelling");
+			return;
+		}
+		Edge e = graph.removeEdge(v, w);
+		System.out.println("\nRemoved route of " + e.getDistance() + " miles from " + city1 + " to " + city2 + " for $" + e.getPrice());
+	}
+	
 	/**
 	 * Prints out the graph in the form: City1 to City2 is distance miles for $price
 	 */
@@ -120,6 +133,7 @@ public class AirlineMain{
 		AirlineMain temp = new AirlineMain("a5data1.txt");
 		temp.printGraph();
 		temp.minimumSpanningTree();
-		temp.addRoute("Pittsburgh", "altoona", 30, 75.00);
+		temp.addRoute("Pittsburgh", "Altoona", 30, 75.00);
+		temp.removeRoute("Pittsburgh","Altoona");
 	}
 }
