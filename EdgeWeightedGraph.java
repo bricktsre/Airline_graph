@@ -110,6 +110,23 @@ public class EdgeWeightedGraph {
         E++;
     }
 
+    public Edge removeEdge(int v, int w) {
+    	Edge e = null;
+    	for(Edge b: adj[v]) {
+    		if(b.either() == w || b.other(v) ==w) {
+    			adj[v].remove(b);
+    			break;
+    		}	
+    	}for(Edge b: adj[w]) {
+    		if(b.either() == v || b.other(w) ==v) {
+    			e=b;
+    			adj[v].remove(b);
+    			break;
+    		}
+    	}
+    	return e;
+    }
+    
     /**
      * Returns the edges incident on vertex {@code v}.
      *
