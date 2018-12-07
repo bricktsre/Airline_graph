@@ -1,6 +1,7 @@
 import java.io.File;
-
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -8,13 +9,14 @@ import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class AirlineMain{
+	private File f;
 	private EdgeWeightedGraph graph;
 	private String[] citylookup;
 	private HashMap<String,Integer> cityidtable= new HashMap<String,Integer>();
 	private ArrayList<Edge> edges = new ArrayList<Edge>();
 	
 	public AirlineMain(String s) {
-		File f = new File(s);
+		f = new File(s);
 		createGraph(f);
 		int a=0;
 		a=a+1;
@@ -88,8 +90,8 @@ public class AirlineMain{
 	/**
 	 * Adds a new edge to the graph between two existing vertices
 	 * 
-	 * @param city1	   vertice one
-	 * @param city2	   vertice two
+	 * @param city1	   vertex one
+	 * @param city2	   vertex two
 	 * @param distance distance weight of edge
 	 * @param price    price weight of edge
 	 */
@@ -111,8 +113,8 @@ public class AirlineMain{
 	/**
 	 * Removes an existing edge from the graph
 	 * 
-	 * @param city1 veritce one
-	 * @param city2 vertice two
+	 * @param city1 vertex one
+	 * @param city2 vertex two
 	 */
 	public void removeRoute(String city1, String city2) {
 		int v=0,w =0;
@@ -124,6 +126,7 @@ public class AirlineMain{
 			return;
 		}
 		Edge e = graph.removeEdge(v, w);
+		edges.remove(e);
 		System.out.println("\nRemoved route of " + e.getDistance() + " miles from " + city1 + " to " + city2 + " for $" + e.getPrice());
 	}
 	
@@ -135,11 +138,35 @@ public class AirlineMain{
 			System.out.println(citylookup[e.either()] + " to " + citylookup[e.other(e.either())] + " is " + e.getDistance()+ " miles for $" + e.getPrice());
 	}
 	
+	/**
+	 * Writes out the current graph to the file it came from and in the same style
+	 */
+	public void writeOutGraph() {
+		try {
+			FileWriter fw = new FileWriter(f);
+			PrintWriter pw = new PrintWriter(fw);
+			pw.write(citylookup.length+"");
+			pw.println();
+			for(int i =0;i<citylookup.length;i++) {
+				pw.write(citylookup[i]);
+				pw.println();
+			}for(Edge e: edges) {
+				pw.write(e.either()+1 + " " + (e.other(e.either())+1) + " " + e.getDistance() + " " + e.getPrice());
+				pw.println();
+			}pw.close();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public static void main(String[] args){
 		AirlineMain temp = new AirlineMain("a5data1.txt");
 		temp.printGraph();
 		temp.minimumSpanningTree();
 		temp.addRoute("Pittsburgh", "Altoona", 30, 75.00);
 		temp.removeRoute("Pittsburgh","Altoona");
+		temp.writeOutGraph();
 	}
 }
