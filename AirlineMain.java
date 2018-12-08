@@ -396,14 +396,61 @@ public class AirlineMain{
 	}
 	
 	public static void main(String[] args){
-		AirlineMain temp = new AirlineMain("a5data1.txt");
-		temp.printGraph();
-		temp.minimumSpanningTree();
-		temp.addRoute("Pittsburgh", "Altoona", 30, 75.00);
-		temp.removeRoute("Pittsburgh","Altoona");
-		temp.writeOutGraph();
-		temp.shortestDistancePath("Johnstown", "Allentown");
-		temp.shortestPricePath("Johnstown", "Allentown");
-		temp.shortestHops("Johnstown", "Allentown");
+		AirlineMain am = new AirlineMain("a5data1.txt");
+		Scanner read = new Scanner(System.in);
+		boolean q = false;
+		String s1="";
+		String s2 ="";
+		int distance = -1;
+		double price = -1.0;
+		while(!q) {
+			System.out.println("\nWhat would you like to do: Print (G)raph, (M)inimum Spanning Tree, (D)istance Shortest Path, (P)rice Shortest Path, (H)ops Shortest Path, (U)nder a Certain Price, (N)ew Route, (R)emove Route, (Q)uit");
+			String s = read.nextLine();
+			switch(s) {
+				case "G":   am.printGraph();
+						    break;
+				case "M":   am.minimumSpanningTree();
+						    break;
+				case "D":   System.out.print("City1: ");
+							s1 = read.nextLine();
+							System.out.print("City2: ");
+							s2 = read.nextLine();
+							am.shortestDistancePath(s1, s2);
+							break;
+				case "P":	System.out.print("City1: ");
+							s1 = read.nextLine();
+							System.out.print("City2: ");
+							s2 = read.nextLine();
+							am.shortestPricePath(s1, s2);
+							break;		
+				case "H":   System.out.print("City1: ");
+							s1 = read.nextLine();
+							System.out.print("City2: ");
+							s2 = read.nextLine();
+							am.shortestHops(s1, s2);
+							break;
+				case "U":   System.out.print("Feature not currently available");
+						    break;
+				case "N":	System.out.print("City1: ");
+							s1 = read.nextLine();
+							System.out.print("City2: ");
+							s2 = read.nextLine();
+							System.out.print("City1: ");
+							distance = read.nextInt();
+							System.out.print("City2: ");
+							price = read.nextDouble();
+							am.addRoute(s1, s2,distance,price);
+							break;	
+				case "R":   System.out.print("City1: ");
+							s1 = read.nextLine();
+							System.out.print("City2: ");
+							s2 = read.nextLine();
+							am.removeRoute(s1, s2);
+							break;	
+				case "Q":   am.writeOutGraph();
+						    q=true;
+						    break;
+			}
+		}
 	}
 }
