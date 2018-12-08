@@ -138,6 +138,20 @@ public class EdgeWeightedGraph {
         validateVertex(v);
         return adj[v];
     }
+    
+    /**
+     * Returns the edges incident on vertex {@code v}.
+     *
+     * @param  v the vertex
+     * @return the edges incident on vertex {@code v} as an Iterable
+     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     */
+    public Iterable<Integer> adjI(int v) {
+        Bag<Integer> temp = new Bag<Integer>();
+        for(Edge e: adj[v])
+        	temp.add(e.other(v));
+        return temp;
+    }
 
     /**
      * Returns the degree of vertex {@code v}.
