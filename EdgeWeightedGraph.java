@@ -106,7 +106,7 @@ public class EdgeWeightedGraph {
         validateVertex(v);
         validateVertex(w);
         adj[v].add(e);
-        adj[w].add(e);
+        adj[w].add(new Edge(w,v,e.getDistance(),e.getPrice()));
         E++;
     }
 
