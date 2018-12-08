@@ -96,8 +96,14 @@ public class AirlineMain{
 	 * @param city2 end city
 	 */
 	public void shortestDistancePath(String city1,String city2) {
-		int s = cityidtable.get(city1);
-		int d = cityidtable.get(city2);
+		int s=0,d =0;
+		try{
+			s = cityidtable.get(city1);
+			d = cityidtable.get(city2);
+		}catch(NullPointerException e) {
+			System.out.println("\nOne of the two cities entered is not valid, please check capitalization and spelling");
+			return;
+		}	
 		double[] distTo;          // distTo[v] = distance  of shortest s->v path
 	    Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
 	    IndexMinPQ<Double> pq; 
@@ -161,6 +167,85 @@ public class AirlineMain{
 	            else                pq.insert(w, distTo[w]);
 	        }
 	    }
+	 
+	 /**
+		 * Finds the smallest price between two cities
+		 * 
+		 * @param city1 start city
+		 * @param city2 end city
+		 */
+		public void shortestPricePath(String city1,String city2) {
+			int s=0,d =0;
+			try{
+				s = cityidtable.get(city1);
+				d = cityidtable.get(city2);
+			}catch(NullPointerException e) {
+				System.out.println("\nOne of the two cities entered is not valid, please check capitalization and spelling");
+				return;
+			}	
+			double[] distTo;          // distTo[v] = distance  of shortest s->v path
+		    Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
+		    IndexMinPQ<Double> pq; 
+			
+		    for (Edge e : graph.edges()) {
+	            if (e.getPrice() < 0)
+	                throw new IllegalArgumentException("edge " + e + " has negative weight");
+	        }
+
+	        distTo = new double[graph.V()];
+	        edgeTo = new Edge[graph.V()];
+
+	        for (int v = 0; v < graph.V(); v++)
+	            distTo[v] = Double.POSITIVE_INFINITY;
+	        distTo[s] = 0.0;
+
+	        // relax vertices in order of distance from s
+	        pq = new IndexMinPQ<Double>(graph.V());
+	        pq.insert(s, distTo[s]);
+	        while (!pq.isEmpty()) {
+	            int v = pq.delMin();
+	            for (Edge e : graph.adj(v))
+	                relaxP(e, v,distTo, edgeTo, pq);
+	        }
+	        if (!(distTo[d] < Double.POSITIVE_INFINITY)) {
+	        	System.out.println(city1 +" to " + city2 + " is not a possible route");
+	        	return;
+	        }	
+	        Stack<Edge> path = new Stack<Edge>();
+	        int x = d;
+	        for (Edge e = edgeTo[d]; e != null; e = edgeTo[x]) {
+	            path.push(e);
+	            x = e.other(x);
+	        }
+	        System.out.println("\nPath with edges (in reverse order):");
+	        System.out.print(city2+ " ");
+	        double total =0;
+	        for(Edge e: path) {
+	        	System.out.print(e.getDistance() +" " +citylookup[e.either()] +" ");
+	        	total+=e.getPrice();
+	        }
+	        System.out.println("\nShortest cost from " + city1+" to "+city2+" is " +total);   	
+		}
+		
+		/**
+		 * relax edge e and update pq if changed	
+		 * 
+		 * @param e edge
+		 * @param v vertex
+		 * @param distTo distance of shortest path
+		 * @param edgeTo last edge on shortest path
+		 * @param pq	 priority queue of edges
+		 */
+		 @SuppressWarnings("unchecked")
+		private void relaxP(Edge e, int v, double[] distTo, Edge[] edgeTo,IndexMinPQ pq) {
+		        int w = e.other(v);
+		        if (distTo[w] > distTo[v] + e.getPrice()) {
+		            distTo[w] = distTo[v] + e.getPrice();
+		            edgeTo[w] = e;
+		            if (pq.contains(w)) pq.decreaseKey(w, distTo[w]);
+		            else                pq.insert(w, distTo[w]);
+		        }
+		    }
 	
 	/**
 	 * Adds a new edge to the graph between two existing vertices
@@ -255,6 +340,7 @@ public class AirlineMain{
 		temp.addRoute("Pittsburgh", "Altoona", 30, 75.00);
 		temp.removeRoute("Pittsburgh","Altoona");
 		temp.writeOutGraph();
-		temp.shortestDistancePath("Erie", "Allentown");
+		temp.shortestDistancePath("Johnstown", "Allentown");
+		temp.shortestPricePath("Johnstown", "Allentown");
 	}
 }
