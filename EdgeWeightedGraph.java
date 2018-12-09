@@ -189,24 +189,4 @@ public class EdgeWeightedGraph {
         }
         return list;
     }
-
-    /**
-     * Returns a string representation of the edge-weighted graph.
-     * This method takes time proportional to <em>E</em> + <em>V</em>.
-     *
-     * @return the number of vertices <em>V</em>, followed by the number of edges <em>E</em>,
-     *         followed by the <em>V</em> adjacency lists of edges
-     */
-    public String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append(V + " " + E + NEWLINE);
-        for (int v = 0; v < V; v++) {
-            s.append(v + ": ");
-            for (Edge e : adj[v]) {
-                s.append(e + "  ");
-            }
-            s.append(NEWLINE);
-        }
-        return s.toString();
-    }
 }
