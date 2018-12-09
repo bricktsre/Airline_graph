@@ -539,9 +539,9 @@ public class AirlineMain{
 							s1 = read.nextLine();
 							System.out.print("City2: ");
 							s2 = read.nextLine();
-							System.out.print("City1: ");
+							System.out.print("Distance: ");
 							distance = read.nextInt();
-							System.out.print("City2: ");
+							System.out.print("Price: ");
 							price = read.nextDouble();
 							am.addRoute(s1, s2,distance,price);
 							break;	
